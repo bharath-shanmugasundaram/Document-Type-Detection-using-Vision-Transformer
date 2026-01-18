@@ -2,10 +2,7 @@
 
 **🔗 Live Demo:** Experience the model in action: [Document Type Detector on Hugging Face Spaces](https://huggingface.co/spaces/bharath-shanmugasundaram/document-type-detector)
 
-## Navigation
-Jump directly to the core evaluation sections:
-[System Design](#system-design) | [Problem Exploration](#problem-exploration) | [Problem Approach & Implementation](#problem-approach-and-implementation) | [Model Performance & Metrics](#model-performance-and-other-metrics)
-
+<div align="center" style="margin: 30px 0;"> <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;"> <a href="#system-design" style="text-decoration: none;"> <button style="padding: 12px 25px; background-color: #007acc; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"> 🏗️ System Design </button> </a> <a href="#problem-exploration" style="text-decoration: none;"> <button style="padding: 12px 25px; background-color: #28a745; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"> 🔍 Problem Exploration </button> </a> <a href="#problem-approach-and-implementation" style="text-decoration: none;"> <button style="padding: 12px 25px; background-color: #ff6b35; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"> ⚙️ Implementation </button> </a> <a href="#model-performance-and-other-metrics" style="text-decoration: none;"> <button style="padding: 12px 25px; background-color: #6f42c1; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"> 📊 Performance Metrics </button> </a> </div> </div>
 ## 🏆 Project Overview
 This project implements a **production-grade Document Type Detection System** that accurately classifies scanned document images into five predefined categories based solely on their **visual layout and structural patterns**. By leveraging the cutting-edge Swin Transformer architecture, the system achieves **90%+ accuracy** without relying on OCR or textual content, making it language-agnostic and computationally efficient.
 
