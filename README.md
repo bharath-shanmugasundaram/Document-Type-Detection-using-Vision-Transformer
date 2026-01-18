@@ -2,7 +2,24 @@
 
 **🔗 Live Demo:** Experience the model in action: [Document Type Detector on Hugging Face Spaces](https://huggingface.co/spaces/bharath-shanmugasundaram/document-type-detector)
 
-<div align="center" style="margin: 30px 0;"> <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;"> <a href="#system-design" style="text-decoration: none;"> <button style="padding: 12px 25px; background-color: #007acc; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"> 🏗️ System Design </button> </a> <a href="#problem-exploration" style="text-decoration: none;"> <button style="padding: 12px 25px; background-color: #28a745; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"> 🔍 Problem Exploration </button> </a> <a href="#problem-approach-and-implementation" style="text-decoration: none;"> <button style="padding: 12px 25px; background-color: #ff6b35; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"> ⚙️ Implementation </button> </a> <a href="#model-performance-and-other-metrics" style="text-decoration: none;"> <button style="padding: 12px 25px; background-color: #6f42c1; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"> 📊 Performance Metrics </button> </a> </div> </div>
+<p align="center">
+  <a href="#-system-design">
+    <img src="https://img.shields.io/badge/Architecture-View-blue?style=for-the-badge" />
+  </a>
+  <a href="https://leetcode.com/u/bharath_shanmugasundaram/">
+    <img src="https://img.shields.io/badge/How%20It%20Works-Explore-green?style=for-the-badge" />
+  </a>
+  <a href="#-future-enhancements">
+    <img src="https://img.shields.io/badge/Future%20Plans-Roadmap-orange?style=for-the-badge" />
+  </a>
+    <a href="#-future-enhancements">
+    <img src="https://img.shields.io/badge/Future%20Plans-Roadmap-orange?style=for-the-badge" />
+  </a>
+    <a href="#-future-enhancements">
+    <img src="https://img.shields.io/badge/Future%20Plans-Roadmap-orange?style=for-the-badge" />
+  </a>
+</p>
+
 ## 🏆 Project Overview
 This project implements a **production-grade Document Type Detection System** that accurately classifies scanned document images into five predefined categories based solely on their **visual layout and structural patterns**. By leveraging the cutting-edge Swin Transformer architecture, the system achieves **90%+ accuracy** without relying on OCR or textual content, making it language-agnostic and computationally efficient.
 
