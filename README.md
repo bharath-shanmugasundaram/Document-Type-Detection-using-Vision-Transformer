@@ -22,37 +22,91 @@ This project implements a **production-grade Document Type Detection System** th
 
 ---
 
-<a id="problem-exploration"></a>
-## 🔍 Problem Statement & Motivation
+<a id="problem-exploration"></a>## 🔍 Problem Exploration & Motivation
 
-- Automate the categorization of digitized documents based on their **visual structure and layout** rather than textual content.
-- Traditional OCR-based pipelines:
-  - Depend heavily on text quality, language, font, and scan clarity
-  - Introduce additional computational overhead and preprocessing complexity
-- A **vision-based approach** was chosen to overcome these limitations by leveraging:
-  - Structural layout cues such as tables, sections, logos, alignment, and spacing
-  - Language-agnostic and format-independent visual patterns
-- Document layout and spatial organization act as strong indicators of document type, even in the absence of readable text.
-- Key challenges addressed:
-  - Curating a diverse and representative dataset of document images
-  - Selecting a model architecture capable of capturing **global spatial relationships and layout semantics**
-- Vision Transformer (ViT) was identified as a suitable architecture due to its ability to model long-range dependencies and global context effectively.
+The objective of this project is to automate the categorization of digitized documents by leveraging their **visual structure and layout characteristics**, rather than relying on textual content. Through extensive exploration, it became evident that the structural composition of a document often provides stronger and more consistent signals for classification than the extracted text itself.
 
+Traditional document classification systems are typically built around **Optical Character Recognition (OCR)** pipelines. While effective in controlled settings, these approaches introduce several practical limitations:
+- High dependency on text quality, scan resolution, fonts, and language
+- Sensitivity to noise, skew, and low-quality scans
+- Additional preprocessing stages that increase system complexity and inference latency
+
+During problem analysis, it was observed that most document types can be reliably distinguished using **layout-driven visual cues**, such as:
+- Arrangement of text blocks and sections
+- Presence and placement of tables, logos, and headers
+- Spacing, alignment, and overall page structure
+
+These patterns remain largely **language-agnostic and content-independent**, making a vision-based approach significantly more robust across real-world document variations.
+
+A key challenge in adopting this approach was the need to:
+- Curate a diverse and representative dataset that captures variations in document formats, layouts, and scan conditions
+- Identify a model architecture capable of learning both **fine-grained local details** and **global spatial relationships** within a document
+
+Transformer-based vision models emerged as a natural fit for this problem. In particular, Vision Transformers (ViTs) demonstrated strong potential due to their ability to model long-range dependencies and capture global context across an entire page. This insight ultimately guided the architectural choices made in this project, laying the foundation for a scalable, OCR-free document classification system.
 
 ---
 
 <a id="problem-approach-and-implementation"></a>
 ## ⚙️ Problem Approach and Implementation
 
-### **Implementation Steps**
-1.  **Dataset Curation**: Assembled and standardized a dataset of ~50,000 document images across 5 classes, split into training (40k) and validation (10k) sets.
-2.  **Model Selection**: Chose the Swin Transformer for its efficiency and hierarchical modeling capability.
-3.  **Training Configuration**:
-    - **Optimizer**: AdamW with differential learning rates (1e-4 for the unfrozen backbone layer, 1e-3 for the classifier head).
-    - **Loss Function**: Cross-Entropy Loss.
-    - **Epochs**: 6.
-    - **Batch Size**: 64.
-4.  **Evaluation**: Set up a robust validation pipeline to track accuracy, loss, and generate detailed performance metrics.
+This project adopts a structured, experimentation-driven approach to build a robust document type classification system using visual cues alone. The implementation emphasizes scalability, efficiency, and generalization across diverse document layouts.
+
+### **Approach Overview**
+Rather than relying on OCR pipelines, the problem was reframed as a **pure vision-based classification task**, where document layout and structural patterns serve as the primary discriminative signals. A transformer-based architecture was selected to effectively capture both local and global spatial relationships within document images.
+
+---
+
+### **Implementation Details**
+
+#### 1. Dataset Curation and Preparation
+- A dataset of approximately **50,000 document images** spanning **five distinct document categories** was curated.
+- The dataset includes variations in layout, formatting, and scan quality to improve real-world robustness.
+- Data was split into:
+  - **Training set**: ~40,000 images
+  - **Validation set**: ~10,000 images
+- All images were standardized through resizing and normalization to ensure consistency during training.
+
+---
+
+#### 2. Model Architecture Selection
+- The **Swin Transformer** was selected as the backbone architecture due to its:
+  - Hierarchical feature representation
+  - Efficient window-based self-attention
+  - Strong performance on structured visual data
+- A custom classification head was added to adapt the pretrained model to the document classification task.
+
+---
+
+#### 3. Training Strategy and Configuration
+- A **transfer learning** approach was employed to leverage pretrained visual knowledge.
+- The backbone was initially frozen, and selective fine-tuning was applied to:
+  - The classification head
+  - The final transformer stage
+- Training configuration:
+  - **Optimizer**: AdamW, chosen for its effectiveness with transformer-based models
+  - **Differential Learning Rates**:
+    - `1e-4` for the unfrozen backbone layers
+    - `1e-3` for the classification head
+  - **Loss Function**: Cross-Entropy Loss for multi-class classification
+  - **Batch Size**: 64
+  - **Epochs**: 6
+- This configuration balances convergence speed with stability while reducing the risk of overfitting.
+
+---
+
+#### 4. Evaluation and Validation
+- A validation pipeline was integrated to monitor model performance after each epoch.
+- Metrics tracked include:
+  - Training and validation loss
+  - Classification accuracy
+- Post-training evaluation includes:
+  - Confusion matrix analysis
+  - Class-wise performance metrics
+- These evaluations provide insights into both overall performance and category-specific behavior.
+
+---
+
+This approach ensures a clear separation between data preparation, model configuration, training logic, and evaluation, resulting in a reproducible and extensible implementation.
 
 ### **Code Overview (Key Snippets)**
 ```
