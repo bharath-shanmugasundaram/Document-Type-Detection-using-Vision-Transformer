@@ -204,8 +204,6 @@ The system is designed as a modular deep learning pipeline for robust document t
   - Associated confidence scores for each class
 - This design allows easy integration into downstream validation or decision-making systems.
 
----
-
 ### 🔁 Fine-Tuning Strategy
 
 A **transfer learning–based fine-tuning strategy** was employed to balance performance and training efficiency:
@@ -216,7 +214,6 @@ A **transfer learning–based fine-tuning strategy** was employed to balance per
   - This allows the model to adapt to document-specific visual patterns such as layout, spacing, and structural cues.
 - This staged unfreezing strategy improves task-specific performance while avoiding **catastrophic forgetting** and overfitting.
 
----
 
 **Design Highlights**
 - Vision-only, OCR-free document classification
