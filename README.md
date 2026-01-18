@@ -54,9 +54,9 @@ The model classifies documents into the following five categories:
 
 ---
 
-## 🤖 Model Architecture: Swin Transformer
+## 🤖 Model Architecture: [`Swin_Transformer`](https://github.com/microsoft/Swin-Transformer)
 This project utilizes a **Swin Transformer** (`swin_base_patch4_window7_224`) as its core architectural backbone, fine-tuned for the document classification task.
-<img width="303" height="166" alt="image" src="https://github.com/user-attachments/assets/b09cc015-3318-4b08-9081-e4634ff5a7dd" />
+<img width="2386" height="1312" alt="image" src="https://github.com/user-attachments/assets/37341143-4b04-4e7a-875e-d0dbd4f15151" />
 
 **Core Concepts:**
 - **Hierarchical Architecture**: Unlike standard Vision Transformers (ViTs) that maintain a constant resolution, Swin Transformer creates a hierarchical feature map by merging image patches in deeper layers. This is crucial for understanding document layouts at various scales, from local text blocks to global page structure.
