@@ -22,7 +22,8 @@ This project implements a **production-grade Document Type Detection System** th
 
 ---
 
-<a id="problem-exploration"></a>## 🔍 Problem Exploration & Motivation
+<a id="problem-exploration"></a>
+## 🔍 Problem Exploration & Motivation
 
 The objective of this project is to automate the categorization of digitized documents by leveraging their **visual structure and layout characteristics**, rather than relying on textual content. Through extensive exploration, it became evident that the structural composition of a document often provides stronger and more consistent signals for classification than the extracted text itself.
 
