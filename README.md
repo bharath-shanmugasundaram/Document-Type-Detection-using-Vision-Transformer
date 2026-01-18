@@ -1,16 +1,15 @@
-
 # Document Type Detection using Vision Transformer (ViT)
 
 **🔗 Live Demo:** Experience the model in action: [Document Type Detector on Hugging Face Spaces](https://huggingface.co/spaces/bharath-shanmugasundaram/document-type-detector)
 
 <p align="center">
-  <a href="#-system-design">
+  <a href="#system-design">
     <img src="https://img.shields.io/badge/System%20Design-View-blue?style=for-the-badge" />
   </a>
-  <a href="#-problem-exploration">
+  <a href="#problem-exploration">
     <img src="https://img.shields.io/badge/Problem%20exploration-Explore-green?style=for-the-badge" />
   </a>
-  <a href="#-problem-approach-and-implementation">
+  <a href="#problem-approach-and-implementation">
     <img src="https://img.shields.io/badge/Implementation-Details-red?style=for-the-badge" />
   </a>
   <a href="#model-performance-and-other-metrics">
@@ -27,13 +26,13 @@ This project implements a **production-grade Document Type Detection System** th
 1.  [Key Features](#key-features)
 2.  [Document Types](#document-types)
 3.  [Model Architecture: Swin Transformer](#model-architecture-swin-transformer)
-4.  [System Design](#-system-design)
-5.  [Problem Exploration](#-problem-exploration)
-6.  [Problem Approach and Implementation](#-problem-approach-and-implementation)
+4.  [System Design](#system-design)
+5.  [Problem Exploration](#problem-exploration)
+6.  [Problem Approach and Implementation](#problem-approach-and-implementation)
 7.  [Model Performance and Other Metrics](#model-performance-and-other-metrics)
 8.  [Dataset](#dataset)
 9.  [Quick Start](#quick-start)
-10. [Future Enhancements](#-future-enhancements)
+10. [Future Enhancements](#future-enhancements)
 
 ---
 
@@ -67,6 +66,7 @@ This architecture's ability to model both fine-grained details and long-range de
 
 ---
 
+<a id="system-design"></a>
 ## 🏗️ System Design
 The system follows a modular deep learning pipeline:
 1.  **Input Processing**: Scanned document images are loaded and standardized.
@@ -79,11 +79,13 @@ The system follows a modular deep learning pipeline:
 
 ---
 
+<a id="problem-exploration"></a>
 ## 🔍 Problem Exploration
 The challenge was to automate the categorization of digitized documents based on visual structure. Traditional methods often rely on Optical Character Recognition (OCR), which introduces dependencies on text quality, language, and font, and adds significant processing overhead. A vision-based approach offers a more robust and generalizable solution, as the structural layout—tables, sections, logos, spacing—is a strong, language-agnostic indicator of document type. The primary task was to curate a suitable dataset and identify a model architecture capable of capturing these spatial and structural nuances effectively.
 
 ---
 
+<a id="problem-approach-and-implementation"></a>
 ## ⚙️ Problem Approach and Implementation
 
 ### **Implementation Steps**
@@ -119,6 +121,7 @@ optimizer = torch.optim.AdamW([
 
 ---
 
+<a id="model-performance-and-other-metrics"></a>
 ## 📊 Model Performance and Other Metrics
 
 ### **Detailed Classification Report**
@@ -151,17 +154,7 @@ The model was evaluated on a held-out test set of 9,984 samples. The results are
 
 ---
 
-## 🚀 Quick Start
-1.  **Try the Live Demo**: Upload a document image at the [Hugging Face Space](https://huggingface.co/spaces/bharath-shanmugasundaram/document-type-detector).
-2.  **Run Locally**:
-    ```bash
-    # Clone the repository (if available)
-    # Install dependencies: torch, torchvision, transformers, Pillow
-    # Load the model and run inference
-    ```
-
----
-
+<a id="future-enhancements"></a>
 ## 🚀 Future Enhancements
 Potential next steps include:
 - Expanding the number of document classes.
