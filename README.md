@@ -55,8 +55,6 @@ This project adopts a structured, experimentation-driven approach to build a rob
 ### **Approach Overview**
 Rather than relying on OCR pipelines, the problem was reframed as a **pure vision-based classification task**, where document layout and structural patterns serve as the primary discriminative signals. A transformer-based architecture was selected to effectively capture both local and global spatial relationships within document images.
 
----
-
 ### **Implementation Details**
 
 #### 1. Dataset Curation and Preparation
@@ -67,7 +65,6 @@ Rather than relying on OCR pipelines, the problem was reframed as a **pure visio
   - **Validation set**: ~10,000 images
 - All images were standardized through resizing and normalization to ensure consistency during training.
 
----
 
 #### 2. Model Architecture Selection
 - The **Swin Transformer** was selected as the backbone architecture due to its:
@@ -76,7 +73,6 @@ Rather than relying on OCR pipelines, the problem was reframed as a **pure visio
   - Strong performance on structured visual data
 - A custom classification head was added to adapt the pretrained model to the document classification task.
 
----
 
 #### 3. Training Strategy and Configuration
 - A **transfer learning** approach was employed to leverage pretrained visual knowledge.
@@ -93,8 +89,6 @@ Rather than relying on OCR pipelines, the problem was reframed as a **pure visio
   - **Epochs**: 6
 - This configuration balances convergence speed with stability while reducing the risk of overfitting.
 
----
-
 #### 4. Evaluation and Validation
 - A validation pipeline was integrated to monitor model performance after each epoch.
 - Metrics tracked include:
@@ -105,7 +99,6 @@ Rather than relying on OCR pipelines, the problem was reframed as a **pure visio
   - Class-wise performance metrics
 - These evaluations provide insights into both overall performance and category-specific behavior.
 
----
 
 This approach ensures a clear separation between data preparation, model configuration, training logic, and evaluation, resulting in a reproducible and extensible implementation.
 
