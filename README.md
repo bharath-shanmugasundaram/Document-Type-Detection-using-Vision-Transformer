@@ -91,12 +91,33 @@ The model classifies documents into the following five categories:
 This project utilizes a **Swin Transformer** (`swin_base_patch4_window7_224`) as its core architectural backbone, fine-tuned for the document classification task.
 <img width="2386" height="1312" alt="image" src="https://github.com/user-attachments/assets/37341143-4b04-4e7a-875e-d0dbd4f15151" />
 
-**Core Concepts:**
-- **Hierarchical Architecture**: Unlike standard Vision Transformers (ViTs) that maintain a constant resolution, Swin Transformer creates a hierarchical feature map by merging image patches in deeper layers. This is crucial for understanding document layouts at various scales, from local text blocks to global page structure.
-- **Shifted Windows**: The model divides the image into non-overlapping windows for self-attention computation, which is highly efficient. In subsequent layers, these windows are *shifted*, allowing cross-window connections and capturing broader contextual relationships essential for distinguishing document formats.
-- **Linear Computational Complexity**: Self-attention is computed within local windows, leading to linear complexity with respect to image size. This makes Swin Transformer significantly more efficient for high-resolution document images compared to ViTs with global attention.
+### 🧠 Core Concepts Behind Swin Transformer
 
-This architecture's ability to model both fine-grained details and long-range dependencies makes it exceptionally well-suited for document structure analysis.
+The Swin Transformer architecture introduces several key innovations that make it particularly effective for document structure understanding, where both fine-grained details and global layout cues are critical.
+
+- **Hierarchical Feature Representation**  
+  Unlike standard Vision Transformers (ViTs) that operate at a fixed spatial resolution, the Swin Transformer constructs a **hierarchical feature pyramid** by progressively merging image patches in deeper layers.  
+  This design enables the model to:
+  - Capture fine-level visual elements such as text blocks and logos in early stages
+  - Learn high-level structural patterns like page layout and section organization in later stages  
+  Such multi-scale representation is essential for robust document layout analysis.
+
+- **Shifted Window-Based Self-Attention**  
+  Self-attention is computed within local, non-overlapping windows to maintain efficiency. In alternating layers, these windows are **shifted**, allowing information to flow across window boundaries.  
+  This mechanism:
+  - Preserves computational efficiency
+  - Enables cross-region interaction
+  - Captures broader contextual relationships across the document  
+  As a result, the model effectively distinguishes document formats that differ in layout rather than textual content.
+
+- **Linear Computational Complexity**  
+  By restricting self-attention to local windows, the Swin Transformer achieves **linear computational complexity with respect to image size**, in contrast to the quadratic complexity of global-attention ViTs.  
+  This makes the architecture:
+  - Scalable to high-resolution document images
+  - Suitable for real-world deployment scenarios
+  - Efficient without sacrificing representational power
+
+Together, these architectural principles allow the Swin Transformer to simultaneously model **local visual details** and **long-range structural dependencies**, making it exceptionally well-suited for vision-based document type classification.
 
 ---
 
@@ -105,14 +126,56 @@ This architecture's ability to model both fine-grained details and long-range de
 
 <img width="2166" height="1798" alt="image" src="https://github.com/user-attachments/assets/cb5828c6-7d12-49f5-8674-fa1c85943b66" />
 
-The system follows a modular deep learning pipeline:
-1.  **Input Processing**: Scanned document images are loaded and standardized.
-2.  **Preprocessing**: Images are resized to 224x224, converted to tensors, and normalized.
-3.  **Feature Extraction**: The pre-trained Swin Transformer backbone extracts hierarchical visual features.
-4.  **Classification**: A custom classification head maps the extracted features to one of the five document type labels.
-5.  **Output**: The system returns the predicted class along with confidence scores.
+The system is designed as a modular deep learning pipeline for robust document type classification based purely on visual structure and layout information.
 
-**Fine-Tuning Strategy**: A transfer learning approach was employed. The pre-trained Swin Transformer backbone was initially frozen, and only the final classification layer was trained. Subsequently, the last transformer block was unfrozen for further task-specific adaptation, allowing the model to refine its understanding of document-specific features without catastrophic forgetting of its general visual knowledge.
+#### 1. Input Processing
+- Scanned document images are ingested as input.
+- Both single-page images and pages extracted from multi-page documents are supported.
+- Inputs are standardized to ensure consistency across diverse document sources.
+
+#### 2. Preprocessing
+- Images are resized to a fixed resolution of **224 × 224** pixels.
+- Data is converted into tensors and normalized using ImageNet statistics.
+- This step ensures compatibility with pretrained transformer weights and stable training dynamics.
+
+#### 3. Feature Extraction
+- A **pre-trained Swin Transformer** is used as the backbone architecture.
+- The hierarchical window-based attention mechanism enables:
+  - Capture of both local layout patterns and global document structure
+  - Robust understanding of tables, sections, headers, and spatial alignment
+- The backbone serves as a powerful feature extractor for document-level representations.
+
+#### 4. Classification Head
+- A custom classification head is attached to the transformer backbone.
+- Extracted features are mapped to one of the **five predefined document type classes**.
+- A softmax layer produces class probabilities, enabling confidence-based predictions.
+
+#### 5. Output
+- The system returns:
+  - The predicted document type
+  - Associated confidence scores for each class
+- This design allows easy integration into downstream validation or decision-making systems.
+
+---
+
+### 🔁 Fine-Tuning Strategy
+
+A **transfer learning–based fine-tuning strategy** was employed to balance performance and training efficiency:
+
+- Initially, the **Swin Transformer backbone was frozen**, and only the classification head was trained.
+  - This preserves the general visual knowledge learned during large-scale pretraining.
+- In the subsequent phase, the **final transformer block was selectively unfrozen**.
+  - This allows the model to adapt to document-specific visual patterns such as layout, spacing, and structural cues.
+- This staged unfreezing strategy improves task-specific performance while avoiding **catastrophic forgetting** and overfitting.
+
+---
+
+**Design Highlights**
+- Vision-only, OCR-free document classification
+- Modular and extensible architecture
+- Efficient transfer learning with selective fine-tuning
+- Layout-aware transformer-based feature extraction
+
 
 ---
 
