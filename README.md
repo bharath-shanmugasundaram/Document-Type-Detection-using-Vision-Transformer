@@ -69,7 +69,7 @@ This architecture's ability to model both fine-grained details and long-range de
 
 ---
 
-## 🏗️ System Design {#system-design}
+## 🏗️ System Design
 The system follows a modular deep learning pipeline:
 1.  **Input Processing**: Scanned document images are loaded and standardized.
 2.  **Preprocessing**: Images are resized to 224x224, converted to tensors, and normalized.
