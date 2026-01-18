@@ -305,16 +305,3 @@ The final curated dataset is available at:
 - **Reproducibility**: Understood the importance of meticulous data documentation
 
 This hands-on data curation was **fundamental to the project's success**—transforming theoretical knowledge into practical understanding of what makes machine learning systems work in reality.
-
----
-
-<a id="future-enhancements"></a>
-## 🚀 Future Enhancements
-Potential next steps include:
-- Expanding the number of document classes.
-- Experimenting with other vision transformer architectures.
-- Implementing ensemble methods for higher robustness.
-- Deploying the model as a microservice API.
-
----
-**Built with ❤️ using PyTorch, Swin Transformers, and Hugging Face.**
