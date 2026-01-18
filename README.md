@@ -84,8 +84,21 @@ The system follows a modular deep learning pipeline:
 ---
 
 <a id="problem-exploration"></a>
-## 🔍 Problem Exploration
-The challenge was to automate the categorization of digitized documents based on visual structure. Traditional methods often rely on Optical Character Recognition (OCR), which introduces dependencies on text quality, language, and font, and adds significant processing overhead. A vision-based approach offers a more robust and generalizable solution, as the structural layout—tables, sections, logos, spacing—is a strong, language-agnostic indicator of document type. The primary task was to curate a suitable dataset and identify a model architecture capable of capturing these spatial and structural nuances effectively.
+## 🔍 Problem Statement & Motivation
+
+- Automate the categorization of digitized documents based on their **visual structure and layout** rather than textual content.
+- Traditional OCR-based pipelines:
+  - Depend heavily on text quality, language, font, and scan clarity
+  - Introduce additional computational overhead and preprocessing complexity
+- A **vision-based approach** was chosen to overcome these limitations by leveraging:
+  - Structural layout cues such as tables, sections, logos, alignment, and spacing
+  - Language-agnostic and format-independent visual patterns
+- Document layout and spatial organization act as strong indicators of document type, even in the absence of readable text.
+- Key challenges addressed:
+  - Curating a diverse and representative dataset of document images
+  - Selecting a model architecture capable of capturing **global spatial relationships and layout semantics**
+- Vision Transformer (ViT) was identified as a suitable architecture due to its ability to model long-range dependencies and global context effectively.
+
 
 ---
 
