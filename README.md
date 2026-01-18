@@ -6,16 +6,16 @@
   <a href="#-system-design">
     <img src="https://img.shields.io/badge/Architecture-View-blue?style=for-the-badge" />
   </a>
-  <a href="https://leetcode.com/u/bharath_shanmugasundaram/">
+  <a href="#-problem-exploration">
     <img src="https://img.shields.io/badge/How%20It%20Works-Explore-green?style=for-the-badge" />
   </a>
-  <a href="#-future-enhancements">
+  <a href="#-problem-approach-and-implementation">
     <img src="https://img.shields.io/badge/Future%20Plans-Roadmap-orange?style=for-the-badge" />
   </a>
     <a href="#-future-enhancements">
     <img src="https://img.shields.io/badge/Future%20Plans-Roadmap-orange?style=for-the-badge" />
   </a>
-    <a href="#-future-enhancements">
+    <a href="#model-performance-and-other-metrics">
     <img src="https://img.shields.io/badge/Future%20Plans-Roadmap-orange?style=for-the-badge" />
   </a>
 </p>
