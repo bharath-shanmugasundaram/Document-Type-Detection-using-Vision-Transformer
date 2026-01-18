@@ -1,467 +1,161 @@
 # Document Type Detection using Vision Transformer (ViT)
 
+**🔗 Live Demo:** Experience the model in action: [Document Type Detector on Hugging Face Spaces](https://huggingface.co/spaces/bharath-shanmugasundaram/document-type-detector)
+
+## Navigation
+Jump directly to the core evaluation sections:
+[System Design](#system-design) | [Problem Exploration](#problem-exploration) | [Problem Approach & Implementation](#problem-approach-and-implementation) | [Model Performance & Metrics](#model-performance-and-other-metrics)
+
 ## 🏆 Project Overview
-
-This project implements a **production-grade Document Type Detection System** that accurately classifies scanned document images into five predefined categories based solely on their **visual layout and structural patterns**. By leveraging cutting-edge Vision Transformer architecture, the system achieves **90%+ accuracy** without relying on OCR or textual content, making it language-agnostic and computationally efficient.
-
-### 🎯 Problem Statement
-Modern organizations process thousands of scanned documents daily, requiring automated classification for efficient routing and processing. Traditional OCR-based methods are:
-- Computationally expensive
-- Language-dependent
-- Prone to errors with poor quality scans
-- Slow due to text extraction overhead
-
-This solution addresses these limitations by focusing on **visual document structure**, enabling rapid classification regardless of document language, text quality, or content.
+This project implements a **production-grade Document Type Detection System** that accurately classifies scanned document images into five predefined categories based solely on their **visual layout and structural patterns**. By leveraging the cutting-edge Swin Transformer architecture, the system achieves **90%+ accuracy** without relying on OCR or textual content, making it language-agnostic and computationally efficient.
 
 ---
 
 ## 📋 Table of Contents
-1. [Key Features](#key-features)
-2. [Document Types](#document-types)
-3. [System Architecture](#system-architecture)
-4. [Dataset](#dataset)
-5. [Model Architecture](#model-architecture)
-6. [Training Pipeline](#training-pipeline)
-7. [Performance Metrics](#performance-metrics)
-8. [Results Visualization](#results-visualization)
-9. [Live Demo](#live-demo)
-10. [Quick Start](#quick-start)
-11. [API Usage](#api-usage)
-12. [Project Structure](#project-structure)
-13. [Technical Specifications](#technical-specifications)
-14. [Future Enhancements](#future-enhancements)
-15. [Acknowledgments](#acknowledgments)
+1.  [Key Features](#key-features)
+2.  [Document Types](#document-types)
+3.  [Model Architecture: Swin Transformer](#model-architecture-swin-transformer)
+4.  [System Design](#system-design)
+5.  [Problem Exploration](#problem-exploration)
+6.  [Problem Approach and Implementation](#problem-approach-and-implementation)
+7.  [Model Performance and Other Metrics](#model-performance-and-other-metrics)
+8.  [Dataset](#dataset)
+9.  [Quick Start](#quick-start)
+10. [Future Enhancements](#future-enhancements)
 
 ---
 
 ## ✨ Key Features
-
-- **High Accuracy**: 90% overall accuracy across 5 document types
-- **Fast Inference**: ~50ms per image on GPU
-- **No OCR Dependency**: Pure vision-based approach
-- **Multilingual Support**: Works with documents in any language
-- **Production Ready**: Includes REST API and web interface
-- **Scalable**: Handles batch processing efficiently
-- **Open Source**: MIT Licensed with pre-trained models available
+- **High Accuracy**: 90% overall accuracy across 5 document types.
+- **Fast Inference**: Optimized for quick predictions.
+- **No OCR Dependency**: Pure vision-based, layout-aware approach.
+- **Production Ready**: Includes a live web interface and API capabilities.
 
 ---
 
 ## 📄 Document Types
-
-| Type | Description | Key Visual Features |
-|------|-------------|---------------------|
-| **Invoice** | Commercial billing documents | Tables, company logos, totals section |
-| **Resume/CV** | Professional career summaries | Structured sections, photo, contact info |
-| **Bank Statement** | Financial transaction records | Grid layouts, bank logos, numerical columns |
-| **Insurance/Policy** | Legal insurance documents | Dense text, signatures, legal headers |
-| **Government Form** | Official application forms | Checkboxes, fillable fields, official seals |
+The model classifies documents into the following five categories:
+1.  **Invoice**
+2.  **Resume**
+3.  **Bank Statement**
+4.  **Insurance / Policy Document**
+5.  **Government Form**
 
 ---
 
-## 🏗️ System Architecture
+## 🤖 Model Architecture: Swin Transformer
+This project utilizes a **Swin Transformer** (`swin_base_patch4_window7_224`) as its core architectural backbone, fine-tuned for the document classification task.
 
-```mermaid
-graph LR
-    A[Input Image] --> B[Preprocessing]
-    B --> C[Vision Transformer]
-    C --> D[Feature Extraction]
-    D --> E[Classification Head]
-    E --> F[Prediction Output]
-    
-    G[Training Pipeline] --> H[Data Augmentation]
-    H --> I[Model Fine-tuning]
-    I --> J[Evaluation]
-    J --> K[Model Deployment]
-    
-    F --> L[REST API]
-    F --> M[Web Interface]
-    F --> N[Batch Processing]
-```
+**Core Concepts:**
+- **Hierarchical Architecture**: Unlike standard Vision Transformers (ViTs) that maintain a constant resolution, Swin Transformer creates a hierarchical feature map by merging image patches in deeper layers. This is crucial for understanding document layouts at various scales, from local text blocks to global page structure.
+- **Shifted Windows**: The model divides the image into non-overlapping windows for self-attention computation, which is highly efficient. In subsequent layers, these windows are *shifted*, allowing cross-window connections and capturing broader contextual relationships essential for distinguishing document formats.
+- **Linear Computational Complexity**: Self-attention is computed within local windows, leading to linear complexity with respect to image size. This makes Swin Transformer significantly more efficient for high-resolution document images compared to ViTs with global attention.
 
-### Components:
-1. **Input Layer**: Accepts images (PNG, JPG, PDF pages)
-2. **Preprocessing**: Resize, normalize, augment
-3. **Feature Extractor**: Swin Transformer backbone
-4. **Classifier**: Multi-layer perceptron head
-5. **Output**: Probability distribution over 5 classes
+This architecture's ability to model both fine-grained details and long-range dependencies makes it exceptionally well-suited for document structure analysis.
 
 ---
 
-## 📊 Dataset
+## 🏗️ System Design {#system-design}
+The system follows a modular deep learning pipeline:
+1.  **Input Processing**: Scanned document images are loaded and standardized.
+2.  **Preprocessing**: Images are resized to 224x224, converted to tensors, and normalized.
+3.  **Feature Extraction**: The pre-trained Swin Transformer backbone extracts hierarchical visual features.
+4.  **Classification**: A custom classification head maps the extracted features to one of the five document type labels.
+5.  **Output**: The system returns the predicted class along with confidence scores.
 
-### Dataset Statistics
-- **Total Images**: 50,000
-- **Training Set**: 40,000 images (80%)
-- **Validation Set**: 10,000 images (20%)
-- **Test Set**: 10,000 images (20% of total)
-- **Classes**: 5 balanced categories
-
-### Data Collection
-- **Source**: Publicly available document datasets
-- **Quality**: High-resolution scanned documents
-- **Variations**: Multiple templates, languages, layouts
-- **Augmentation**: Rotation, scaling, contrast adjustment
-
-### Dataset Availability
-- **Hugging Face**: [`bharath-shanmugasundaram/Document-Type-Detection`](https://huggingface.co/datasets/bharath-shanmugasundaram/Document-Type-Detection)
-- **Format**: Hugging Face Dataset with train/validation splits
+**Fine-Tuning Strategy**: A transfer learning approach was employed. The pre-trained Swin Transformer backbone was initially frozen, and only the final classification layer was trained. Subsequently, the last transformer block was unfrozen for further task-specific adaptation, allowing the model to refine its understanding of document-specific features without catastrophic forgetting of its general visual knowledge.
 
 ---
 
-## 🤖 Model Architecture
+## 🔍 Problem Exploration {#problem-exploration}
+The challenge was to automate the categorization of digitized documents based on visual structure. Traditional methods often rely on Optical Character Recognition (OCR), which introduces dependencies on text quality, language, and font, and adds significant processing overhead. A vision-based approach offers a more robust and generalizable solution, as the structural layout—tables, sections, logos, spacing—is a strong, language-agnostic indicator of document type. The primary task was to curate a suitable dataset and identify a model architecture capable of capturing these spatial and structural nuances effectively.
 
-### Base Model: Swin Transformer
-- **Model**: `swin_base_patch4_window7_224`
-- **Pretrained**: ImageNet-1K
-- **Parameters**: 88M
-- **Input Size**: 224×224×3
+---
 
-### Fine-tuning Strategy
+## ⚙️ Problem Approach and Implementation {#problem-approach-and-implementation}
+
+### **Implementation Steps**
+1.  **Dataset Curation**: Assembled and standardized a dataset of ~50,000 document images across 5 classes, split into training (40k) and validation (10k) sets.
+2.  **Model Selection**: Chose the Swin Transformer for its efficiency and hierarchical modeling capability.
+3.  **Training Configuration**:
+    - **Optimizer**: AdamW with differential learning rates (1e-4 for the unfrozen backbone layer, 1e-3 for the classifier head).
+    - **Loss Function**: Cross-Entropy Loss.
+    - **Epochs**: 6.
+    - **Batch Size**: 64.
+4.  **Evaluation**: Set up a robust validation pipeline to track accuracy, loss, and generate detailed performance metrics.
+
+### **Code Overview (Key Snippets)**
 ```python
-# Layer-wise unfreezing for optimal transfer learning
+# Model Initialization
+model = timm.create_model("swin_base_patch4_window7_224", pretrained=True, num_classes=5)
+
+# Differential Fine-tuning
 for param in model.parameters():
-    param.requires_grad = False  # Freeze backbone
-
+    param.requires_grad = False # Freeze backbone
 for param in model.head.parameters():
-    param.requires_grad = True   # Unfreeze classifier
-
+    param.requires_grad = True  # Unfreeze classifier
 for param in model.layers[-1].parameters():
-    param.requires_grad = True   # Unfreeze last transformer block
-```
+    param.requires_grad = True  # Unfreeze last stage
 
-### Training Configuration
-| Parameter | Value |
-|-----------|-------|
-| **Batch Size** | 64 |
-| **Learning Rate** | 1e-3 (head), 1e-4 (last layer) |
-| **Optimizer** | AdamW |
-| **Loss Function** | CrossEntropyLoss |
-| **Epochs** | 6 |
-| **Image Size** | 224×224 |
-| **Normalization** | ImageNet stats |
-
----
-
-## 🚀 Training Pipeline
-
-### Data Preprocessing
-```python
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225]
-    )
+# Training Loop
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.AdamW([
+    {"params": model.layers[-1].parameters(), "lr": 1e-4},
+    {"params": model.head.parameters(), "lr": 1e-3},
 ])
 ```
 
-### Training Loop
-```python
-for epoch in range(EPOCHS):
-    model.train()
-    for batch in train_loader:
-        images, labels = batch["image"], batch["label"]
-        outputs = model(images)
-        loss = criterion(outputs, labels)
-        
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-    
-    # Validation
-    model.eval()
-    with torch.no_grad():
-        val_acc = evaluate(model, val_loader)
-```
+---
 
-### Performance Progression
-| Epoch | Training Loss | Validation Accuracy |
-|-------|---------------|---------------------|
-| 1 | 0.4512 | 82.34% |
-| 2 | 0.2891 | 86.72% |
-| 3 | 0.1874 | 88.91% |
-| 4 | 0.1328 | 89.67% |
-| 5 | 0.0941 | 90.23% |
-| 6 | 0.0726 | **90.41%** |
+## 📊 Model Performance and Other Metrics {#model-performance-and-other-metrics}
+
+### **Detailed Classification Report**
+The model was evaluated on a held-out test set of 9,984 samples. The results are summarized below:
+
+| Document Type | Precision | Recall | F1-Score | Support |
+| :--- | :--- | :--- | :--- | :--- |
+| **Bank Statement** | 0.88 | 0.90 | 0.89 | 1,996 |
+| **Government Forms** | 0.84 | 0.84 | 0.84 | 1,997 |
+| **Insurance** | 0.87 | 0.84 | 0.85 | 1,998 |
+| **Invoice** | 0.94 | 0.95 | 0.94 | 1,996 |
+| **Resume** | 0.98 | 0.99 | 0.98 | 1,997 |
+| | | | | |
+| **Accuracy** | | | **0.90** | 9,984 |
+| **Macro Avg** | 0.90 | 0.90 | 0.90 | 9,984 |
+| **Weighted Avg** | 0.90 | 0.90 | 0.90 | 9,984 |
+
+### **Analysis**
+- **Overall Performance**: The model achieved a strong **90% accuracy**, demonstrating its effectiveness.
+- **Class-wise Insight**: The **Resume** and **Invoice** classes show near-perfect performance (F1 > 0.94), likely due to their highly distinctive and consistent visual layouts. Slightly lower scores for **Government Forms** and **Insurance** documents suggest these classes may have more intra-class visual variation or share structural similarities with other types.
+- **Conclusion**: The Swin Transformer-based approach successfully solves the document classification problem with high accuracy, validating the hypothesis that visual structure is a powerful feature for this task.
 
 ---
 
-## 📈 Performance Metrics
-
-### Classification Report
-```
-                  precision    recall  f1-score   support
-
-  Bank Statement       0.88      0.90      0.89      1996
-Government Forms       0.84      0.84      0.84      1997
-       Insurance       0.87      0.84      0.85      1998
-         Invoice       0.94      0.95      0.94      1996
-          Resume       0.98      0.99      0.98      1997
-
-        accuracy                           0.90      9984
-       macro avg       0.90      0.90      0.90      9984
-    weighted avg       0.90      0.90      0.90      9984
-```
-
-### Key Metrics
-- **Overall Accuracy**: 90.41%
-- **Macro F1-Score**: 0.90
-- **Inference Speed**: 50ms/image (T4 GPU)
-- **Model Size**: 338MB (compressed)
-
----
-
-## 📊 Results Visualization
-
-### Confusion Matrix
-![Confusion Matrix](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Confusion+Matrix+Visualization)
-
-### Class-wise Performance
-| Class | Precision | Recall | F1-Score | Support |
-|-------|-----------|--------|----------|---------|
-| Invoice | 0.94 | 0.95 | 0.94 | 1,996 |
-| Resume | 0.98 | 0.99 | 0.98 | 1,997 |
-| Bank Statement | 0.88 | 0.90 | 0.89 | 1,996 |
-| Insurance | 0.87 | 0.84 | 0.85 | 1,998 |
-| Government Form | 0.84 | 0.84 | 0.84 | 1,997 |
-
----
-
-## 🌐 Live Demo
-
-### Hugging Face Spaces
-- **Demo URL**: [Document Type Classifier](https://huggingface.co/spaces/bharath-shanmugasundaram/document-type-detection)
-- **Features**: 
-  - Upload document images
-  - Real-time classification
-  - Confidence scores
-  - Batch processing support
-
-### API Endpoints
-```
-POST /predict
-Content-Type: multipart/form-data
-Body: { "file": image_file }
-
-Response: {
-  "prediction": "Invoice",
-  "confidence": 0.95,
-  "probabilities": {
-    "Invoice": 0.95,
-    "Resume": 0.02,
-    ...
-  }
-}
-```
+## 📁 Dataset
+- **Source**: Custom-curated public datasets.
+- **Total Images**: Approximately 50,000.
+- **Split**: 40,000 for training, 10,000 for validation/testing.
+- **Availability**: The dataset is publicly available on Hugging Face: [`bharath-shanmugasundaram/Document-Type-Detection`](https://huggingface.co/datasets/bharath-shanmugasundaram/Document-Type-Detection).
 
 ---
 
 ## 🚀 Quick Start
-
-### Prerequisites
-- Python 3.8+
-- CUDA 11.7+ (for GPU support)
-- 4GB+ RAM
-
-### Installation
-```bash
-# Clone repository
-git clone https://github.com/yourusername/document-type-detection.git
-cd document-type-detection
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu117
-pip install -r requirements.txt
-```
-
-### Requirements
-```txt
-torch>=2.0.0
-torchvision>=0.15.0
-transformers>=4.30.0
-datasets>=2.13.0
-timm>=0.9.0
-fastapi>=0.100.0
-uvicorn>=0.23.0
-pillow>=10.0.0
-scikit-learn>=1.3.0
-seaborn>=0.12.0
-matplotlib>=3.7.0
-```
-
----
-
-## 🔧 API Usage
-
-### Local Deployment
-```bash
-# Start FastAPI server
-uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-### Python Inference
-```python
-from inference import DocumentClassifier
-
-# Initialize classifier
-classifier = DocumentClassifier(model_path="model1.pth")
-
-# Single prediction
-result = classifier.predict("document.jpg")
-print(f"Predicted: {result['class']} ({result['confidence']:.2%})")
-
-# Batch prediction
-results = classifier.predict_batch(["doc1.jpg", "doc2.pdf"])
-```
-
-### Web Interface
-```bash
-# Launch Streamlit app
-streamlit run app/main.py
-```
-
----
-
-## 📁 Project Structure
-
-```
-document-type-detection/
-├── models/
-│   ├── model1.pth              # Trained model weights
-│   └── swin_base_config.json   # Model configuration
-├── src/
-│   ├── __init__.py
-│   ├── data_preprocessing.py   # Data loading and augmentation
-│   ├── model.py               # Model architecture
-│   ├── train.py              # Training pipeline
-│   ├── inference.py          # Inference utilities
-│   └── utils.py             # Helper functions
-├── api/
-│   ├── main.py              # FastAPI application
-│   ├── schemas.py           # Pydantic models
-│   └── endpoints.py         # API routes
-├── app/
-│   ├── main.py              # Streamlit interface
-│   └── assets/              # Static files
-├── notebooks/
-│   ├── exploration.ipynb    # Data analysis
-│   ├── training.ipynb       # Model training
-│   └── evaluation.ipynb     # Performance analysis
-├── tests/
-│   ├── test_model.py
-│   ├── test_inference.py
-│   └── test_api.py
-├── data/
-│   └── samples/             # Example documents
-├── requirements.txt
-├── Dockerfile
-├── docker-compose.yml
-├── README.md
-└── LICENSE
-```
-
----
-
-## ⚙️ Technical Specifications
-
-### Hardware Requirements
-| Resource | Minimum | Recommended |
-|----------|---------|-------------|
-| **GPU** | 4GB VRAM | 8GB+ VRAM |
-| **RAM** | 8GB | 16GB |
-| **Storage** | 2GB | 10GB |
-| **CPU** | 4 cores | 8+ cores |
-
-### Software Stack
-- **Framework**: PyTorch 2.0
-- **Transformer**: timm (Swin Transformer)
-- **API**: FastAPI + Uvicorn
-- **Frontend**: Streamlit
-- **Container**: Docker + Docker Compose
-- **MLOps**: Weights & Biases (optional)
-
-### Model Details
-- **File Size**: 338MB (.pth format)
-- **Format**: PyTorch state dictionary
-- **Compatibility**: CPU/GPU, Linux/Windows/macOS
-- **Inference**: ONNX export available
+1.  **Try the Live Demo**: Upload a document image at the [Hugging Face Space](https://huggingface.co/spaces/bharath-shanmugasundaram/document-type-detector).
+2.  **Run Locally**:
+    ```bash
+    # Clone the repository (if available)
+    # Install dependencies: torch, torchvision, transformers, Pillow
+    # Load the model and run inference
+    ```
 
 ---
 
 ## 🚀 Future Enhancements
-
-### Short-term (Q1 2024)
-1. **Multi-page Document Support**
-2. **OCR-Vision Hybrid Model**
-3. **Confidence Calibration**
-4. **Model Quantization** (reduce size by 4x)
-
-### Medium-term (Q2 2024)
-1. **10+ Document Types** (contracts, reports, certificates)
-2. **Layout Segmentation**
-3. **Key-Value Pair Extraction**
-4. **Cloud Deployment** (AWS/GCP/Azure)
-
-### Long-term (H2 2024)
-1. **Zero-shot Learning**
-2. **3D Document Understanding**
-3. **Multimodal LLM Integration**
-4. **Real-time Video Document Processing**
+Potential next steps include:
+- Expanding the number of document classes.
+- Experimenting with other vision transformer architectures.
+- Implementing ensemble methods for higher robustness.
+- Deploying the model as a microservice API.
 
 ---
-
-## 📚 Acknowledgments
-
-### Credits
-- **Swin Transformer**: Microsoft Research
-- **Hugging Face**: Dataset hosting and model sharing
-- **PyTorch Team**: Deep learning framework
-- **ImageNet**: Pre-training dataset
-
-### References
-1. Liu et al. "Swin Transformer: Hierarchical Vision Transformer using Shifted Windows" (ICCV 2021)
-2. Dosovitskiy et al. "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale" (ICLR 2021)
-3. Hugging Face Transformers Library
-
-### Citation
-```bibtex
-@software{document_type_detection_2024,
-  title = {Document Type Detection using Vision Transformer},
-  author = {Bharath Shanmugasundaram},
-  year = {2024},
-  url = {https://github.com/bharath-shanmugasundaram/document-type-detection},
-  note = {Document classification system using Swin Transformer}
-}
-```
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Contact
-
-**Author**: Bharath Shanmugasundaram  
-**Email**: bharath.shanmugasundaram@example.com  
-**GitHub**: [@bharath-shanmugasundaram](https://github.com/bharath-shanmugasundaram)  
-**LinkedIn**: [Bharath Shanmugasundaram](https://linkedin.com/in/bharath-shanmugasundaram)
-
----
-
-## ⭐ Support
-
-If you find this project useful, please:
-1. ⭐ Star the repository
-2. 🐛 Report issues
-3. 🔄 Fork and contribute
-4. 📢 Share with your network
-
----
-
-*Built with ❤️ using PyTorch, Transformers, and FastAPI*
+**Built with ❤️ using PyTorch, Swin Transformers, and Hugging Face.**
