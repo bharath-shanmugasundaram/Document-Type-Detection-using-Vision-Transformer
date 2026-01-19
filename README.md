@@ -1,6 +1,6 @@
 # Document Type Detection using Vision Transformer (ViT)
 
-**🔗 Live Demo:** Experience the model in action: [Document Type Detector on Hugging Face Spaces](https://huggingface.co/spaces/bharath-shanmugasundaram/document-type-detector)
+** Live Demo:** Experience the model in action: [Document Type Detector on Hugging Face Spaces](https://huggingface.co/spaces/bharath-shanmugasundaram/document-type-detector)
 
 <p align="center">
   <a href="#system-design">
@@ -17,13 +17,13 @@
   </a>
 </p>
 
-## 🏆 Project Overview
+## Project Overview
 This project implements a **production-grade Document Type Detection System** that accurately classifies scanned document images into five predefined categories based solely on their **visual layout and structural patterns**. By leveraging the cutting-edge Swin Transformer architecture, the system achieves **90%+ accuracy** without relying on OCR or textual content, making it language-agnostic and computationally efficient.
 
 ---
 
 <a id="problem-exploration"></a>
-## 🔍 Problem Exploration & Motivation
+## Problem Exploration & Motivation
 
 The objective of this project is to automate the categorization of digitized documents by leveraging their **visual structure and layout characteristics**, rather than relying on textual content. Through extensive exploration, it became evident that the structural composition of a document often provides stronger and more consistent signals for classification than the extracted text itself.
 
@@ -48,7 +48,7 @@ Transformer-based vision models emerged as a natural fit for this problem. In pa
 ---
 
 <a id="problem-approach-and-implementation"></a>
-## ⚙️ Problem Approach and Implementation
+## Problem Approach and Implementation
 
 This project adopts a structured, experimentation-driven approach to build a robust document type classification system using visual cues alone. The implementation emphasizes scalability, efficiency, and generalization across diverse document layouts.
 
@@ -125,7 +125,7 @@ optimizer = torch.optim.AdamW([
 
 ---
 
-## 📄 Document Types
+## Document Types
 The model classifies documents into the following five categories:
 1.  **Invoice**
 2.  **Resume**
@@ -135,11 +135,11 @@ The model classifies documents into the following five categories:
 
 ---
 
-## 🤖 Model Architecture: [`Swin_Transformer`](https://github.com/microsoft/Swin-Transformer)
+## Model Architecture: [`Swin_Transformer`](https://github.com/microsoft/Swin-Transformer)
 This project utilizes a **Swin Transformer** (`swin_base_patch4_window7_224`) as its core architectural backbone, fine-tuned for the document classification task.
 <img width="2386" height="1312" alt="image" src="https://github.com/user-attachments/assets/37341143-4b04-4e7a-875e-d0dbd4f15151" />
 
-### 🧠 Core Concepts Behind Swin Transformer
+### Core Concepts Behind Swin Transformer
 
 The Swin Transformer architecture introduces several key innovations that make it particularly effective for document structure understanding, where both fine-grained details and global layout cues are critical.
 
@@ -170,7 +170,7 @@ Together, these architectural principles allow the Swin Transformer to simultane
 ---
 
 <a id="system-design"></a>
-## 🏗️ System Design
+## System Design
 
 <img width="2166" height="1798" alt="image" src="https://github.com/user-attachments/assets/cb5828c6-7d12-49f5-8674-fa1c85943b66" />
 
@@ -204,7 +204,7 @@ The system is designed as a modular deep learning pipeline for robust document t
   - Associated confidence scores for each class
 - This design allows easy integration into downstream validation or decision-making systems.
 
-### 🔁 Fine-Tuning Strategy
+### Fine-Tuning Strategy
 
 A **transfer learning–based fine-tuning strategy** was employed to balance performance and training efficiency:
 
@@ -224,7 +224,7 @@ A **transfer learning–based fine-tuning strategy** was employed to balance per
 
 ---
 
-## ✨ Key Features
+## Key Features
 - **High Accuracy**: 90% overall accuracy across 5 document types.
 - **Fast Inference**: Optimized for quick predictions.
 - **No OCR Dependency**: Pure vision-based, layout-aware approach.
@@ -233,7 +233,7 @@ A **transfer learning–based fine-tuning strategy** was employed to balance per
 ---
 
 <a id="model-performance-and-other-metrics"></a>
-## 📊 Model Performance and Other Metrics
+## Model Performance and Other Metrics
 
 ### **Detailed Classification Report**
 The model was evaluated on a held-out test set of 9,984 samples. The results are summarized below:
@@ -257,12 +257,12 @@ The model was evaluated on a held-out test set of 9,984 samples. The results are
 
 ---
 
-# 📊 Dataset Curation: From Raw Collection to Refined Repository
+# Dataset Curation: From Raw Collection to Refined Repository
 
-## 🎯 The Data Foundation Challenge
+## The Data Foundation Challenge
 Building an accurate document classifier starts with quality data. Since no suitable dataset existed, I undertook the comprehensive task of **collecting, cleaning, and structuring** a robust dataset from scratch.
 
-## 🔄 Data Pipeline: Collection to Deployment
+## Data Pipeline: Collection to Deployment
 
 ### **Phase 1: Multi-Source Aggregation**
 - **Initial Sources**: Began with public datasets (RVL-CDIP, DocBank)
@@ -280,7 +280,7 @@ Building an accurate document classifier starts with quality data. Since no suit
 - **Consistency Checks**: Established clear guidelines for ambiguous cases
 - **Balance Achievement**: Worked to create equal representation across all 5 classes
 
-## 📈 Strategic Dataset Split
+## Strategic Dataset Split
 Implemented a **structured, stratified split** to ensure fair evaluation:
 - **Training**: 40,000 images (80%)
 - **Validation**: 5,000 images (10%) 
@@ -288,7 +288,7 @@ Implemented a **structured, stratified split** to ensure fair evaluation:
 
 **Key Insight**: This balanced split prevented class imbalance issues and provided reliable performance metrics.
 
-## 🚀 Hugging Face Deployment
+## Hugging Face Deployment
 ### **Preparation Steps:**
 1. **Optimized Formatting**: Converted to efficient, standardized structure
 2. **Comprehensive Documentation**: Created detailed dataset cards with usage examples
@@ -298,7 +298,7 @@ Implemented a **structured, stratified split** to ensure fair evaluation:
 The final curated dataset is available at:  
 **[`bharath-shanmugasundaram/Document-Type-Detection`](https://huggingface.co/datasets/bharath-shanmugasundaram/Document-Type-Detection)**
 
-## 💡 Core Learning Outcomes
+## Core Learning Outcomes
 - **ML Reality Check**: Experienced firsthand that **data preparation consumes majority of project time**
 - **Quality Over Quantity**: Learned that 10,000 clean samples per class outperforms 50,000 noisy ones
 - **Bias Awareness**: Developed skills to identify and mitigate dataset biases
