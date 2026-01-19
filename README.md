@@ -1,6 +1,6 @@
 # Document Type Detection using Vision Transformer (ViT)
 
-** Live Demo:** Experience the model in action: [Document Type Detector on Hugging Face Spaces](https://huggingface.co/spaces/bharath-shanmugasundaram/document-type-detector)
+**Live Demo:** Experience the model in action: [Document Type Detector on Hugging Face Spaces](https://huggingface.co/spaces/bharath-shanmugasundaram/document-type-detector)
 
 <p align="center">
   <a href="#system-design">
